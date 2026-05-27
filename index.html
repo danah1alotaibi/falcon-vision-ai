@@ -6,155 +6,225 @@
   <title>Falcon Vision AI</title>
 
   <style>
-    body {
-      margin: 0;
-      background: #050816;
-      color: white;
-      font-family: Arial, sans-serif;
+
+    body{
+      margin:0;
+      background:#050816;
+      color:white;
+      font-family:Arial,sans-serif;
     }
 
-    .dashboard {
-      min-height: 100vh;
-      padding: 25px;
-      box-sizing: border-box;
+    .dashboard{
+      min-height:100vh;
+      padding:25px;
+      box-sizing:border-box;
     }
 
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #00eaff;
+    .top-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      color:#00eaff;
     }
 
-    .main {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 25px;
-      margin-top: 25px;
+    .main{
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:25px;
+      margin-top:25px;
     }
 
-    .camera-box {
-      height: 480px;
-      border: 2px solid #00eaff;
-      border-radius: 18px;
-      background: #07111f;
-      box-shadow: 0 0 25px rgba(0,234,255,0.4);
-      position: relative;
-      overflow: hidden;
+    .camera-box{
+      height:480px;
+      border:2px solid #00eaff;
+      border-radius:18px;
+      background:#07111f;
+      box-shadow:0 0 25px rgba(0,234,255,0.4);
+      position:relative;
+      overflow:hidden;
     }
 
-    .camera-box iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
+    iframe{
+      width:100%;
+      height:100%;
+      border:none;
     }
 
-    .side-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
+    .rec{
+      position:absolute;
+      top:15px;
+      left:20px;
+      color:red;
+      font-weight:bold;
+      z-index:5;
+      animation:blink 1s infinite;
     }
 
-    .card {
-      background: #0b1224;
-      border: 1px solid #1e90ff;
-      border-radius: 15px;
-      padding: 18px;
-      box-shadow: 0 0 15px rgba(0,234,255,0.15);
-    }
-
-    .card h3 {
-      margin-top: 0;
-      color: #00eaff;
-    }
-
-    .value {
-      font-size: 28px;
-      color: #00ff99;
-    }
-
-    .controls {
-      margin-top: 25px;
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      padding: 14px 25px;
-      border: none;
-      border-radius: 30px;
-      background: #00eaff;
-      color: #050816;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button:hover {
-      box-shadow: 0 0 20px #00eaff;
-    }
-
-    .danger {
-      background: #ff3355;
-      color: white;
-    }
-
-    .rec {
-      position: absolute;
-      top: 15px;
-      left: 20px;
-      color: red;
-      font-weight: bold;
-      z-index: 5;
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      50% {
-        opacity: 0.3;
+    @keyframes blink{
+      50%{
+        opacity:0.3;
       }
     }
 
-    .scan-line {
-      position: absolute;
-      width: 100%;
-      height: 4px;
-      background: #00ffcc;
-      top: 0;
-      z-index: 5;
-      box-shadow: 0 0 20px #00ffcc;
-      animation: scan 4s linear infinite;
+    .scan-line{
+      position:absolute;
+      width:100%;
+      height:4px;
+      background:#00ffcc;
+      top:0;
+      z-index:5;
+      box-shadow:0 0 20px #00ffcc;
+      animation:scan 4s linear infinite;
     }
 
-    @keyframes scan {
-      0% {
-        top: 0;
+    @keyframes scan{
+      0%{
+        top:0;
       }
 
-      100% {
-        top: 100%;
+      100%{
+        top:100%;
       }
     }
 
-    .target-box {
-      position: absolute;
-      width: 120px;
-      height: 120px;
-      border: 3px solid red;
-      top: 45%;
-      left: 45%;
-      z-index: 5;
-      box-shadow: 0 0 20px red;
+    .target-box{
+      position:absolute;
+      width:120px;
+      height:120px;
+      border:3px solid red;
+      top:45%;
+      left:45%;
+      z-index:5;
+      box-shadow:0 0 20px red;
     }
 
-    .coords {
-      position: absolute;
-      bottom: 15px;
-      left: 20px;
-      color: #00ffcc;
-      z-index: 5;
-      font-size: 14px;
+    .coords{
+      position:absolute;
+      bottom:15px;
+      left:20px;
+      color:#00ffcc;
+      z-index:5;
+      font-size:14px;
     }
+
+    .side-panel{
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .card{
+      background:#0b1224;
+      border:1px solid #1e90ff;
+      border-radius:15px;
+      padding:18px;
+      box-shadow:0 0 15px rgba(0,234,255,0.15);
+    }
+
+    .card h3{
+      margin-top:0;
+      color:#00eaff;
+    }
+
+    .value{
+      font-size:28px;
+      color:#00ff99;
+    }
+
+    .controls{
+      margin-top:25px;
+      display:flex;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      padding:14px 25px;
+      border:none;
+      border-radius:30px;
+      background:#00eaff;
+      color:#050816;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    button:hover{
+      box-shadow:0 0 20px #00eaff;
+    }
+
+    .danger{
+      background:#ff3355;
+      color:white;
+    }
+
+    /* RADAR */
+
+    .radar{
+      margin-top:10px;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      border:2px solid #00ff99;
+      position:relative;
+      overflow:hidden;
+      align-self:center;
+      background:rgba(0,255,100,0.05);
+      box-shadow:0 0 25px rgba(0,255,100,0.3);
+    }
+
+    .radar::before{
+      content:"";
+      position:absolute;
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      border:1px solid rgba(0,255,100,0.2);
+      transform:scale(0.7);
+    }
+
+    .radar::after{
+      content:"";
+      position:absolute;
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      border:1px solid rgba(0,255,100,0.15);
+      transform:scale(0.4);
+    }
+
+    .sweep{
+      position:absolute;
+      width:50%;
+      height:2px;
+      background:#00ff99;
+      top:50%;
+      left:50%;
+      transform-origin:left center;
+      animation:rotate 2s linear infinite;
+      box-shadow:0 0 20px #00ff99;
+    }
+
+    @keyframes rotate{
+      from{
+        transform:rotate(0deg);
+      }
+
+      to{
+        transform:rotate(360deg);
+      }
+    }
+
+    .dot{
+      position:absolute;
+      width:10px;
+      height:10px;
+      background:red;
+      border-radius:50%;
+      top:35%;
+      left:60%;
+      box-shadow:0 0 15px red;
+    }
+
   </style>
 </head>
 
@@ -172,7 +242,9 @@
       <div class="camera-box">
 
         <div class="rec">● REC</div>
+
         <div class="scan-line"></div>
+
         <div class="target-box"></div>
 
         <div class="coords">
@@ -192,12 +264,12 @@
 
         <div class="card">
           <h3>Battery</h3>
-          <div class="value" id="battery">87%</div>
+          <div class="value">87%</div>
         </div>
 
         <div class="card">
           <h3>Altitude</h3>
-          <div class="value" id="altitude">0 m</div>
+          <div class="value">12 m</div>
         </div>
 
         <div class="card">
@@ -207,7 +279,17 @@
 
         <div class="card">
           <h3>AI Vision</h3>
-          <div class="value" id="ai">Offline</div>
+          <div class="value">Online</div>
+        </div>
+
+        <!-- RADAR -->
+
+        <div class="radar">
+
+          <div class="sweep"></div>
+
+          <div class="dot"></div>
+
         </div>
 
       </div>
@@ -215,33 +297,18 @@
     </div>
 
     <div class="controls">
-      <button onclick="connectDrone()">Connect Drone</button>
-      <button onclick="startCamera()">Start Camera</button>
-      <button onclick="activateAI()">Activate AI Vision</button>
-      <button class="danger" onclick="emergencyStop()">Emergency Stop</button>
+
+      <button>Connect Drone</button>
+
+      <button>Start Camera</button>
+
+      <button>Activate AI Vision</button>
+
+      <button class="danger">Emergency Stop</button>
+
     </div>
 
   </div>
-
-  <script>
-    function connectDrone() {
-      document.getElementById("connection").innerText = "STATUS: DRONE CONNECTED";
-      document.getElementById("altitude").innerText = "12 m";
-    }
-
-    function startCamera() {
-      alert("Camera feed simulation started");
-    }
-
-    function activateAI() {
-      document.getElementById("ai").innerText = "Online";
-    }
-
-    function emergencyStop() {
-      document.getElementById("connection").innerText = "STATUS: EMERGENCY STOP";
-      document.getElementById("altitude").innerText = "0 m";
-    }
-  </script>
 
 </body>
 </html>
