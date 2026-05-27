@@ -157,6 +157,15 @@
       color:white;
     }
 
+    .toggle-btn{
+      background:#00ff99;
+      margin-top:10px;
+    }
+
+    .toggle-btn:hover{
+      box-shadow:0 0 20px #00ff99;
+    }
+
     /* RADAR */
 
     .radar{
@@ -224,19 +233,35 @@
       left:60%;
       box-shadow:0 0 15px red;
     }
-<div class="map-card">
-  <h3>Live GPS Map</h3>
 
-  <div class="mini-map">
-    <div class="map-grid"></div>
-    <div class="drone-point">▲</div>
-    <div class="map-label">DRONE NODE-01</div>
-  </div>
+    /* MAP */
 
-  <p class="gps-text">
-    LAT: 24.7136 | LON: 46.6753
-  </p>
-</div>
+    .map-card{
+      display:none;
+      background:#0b1224;
+      border:1px solid #00eaff;
+      border-radius:15px;
+      padding:18px;
+      box-shadow:0 0 15px rgba(0,234,255,0.15);
+    }
+
+    .map-card h3{
+      margin-top:0;
+      color:#00eaff;
+    }
+
+    .real-map{
+      width:100%;
+      height:220px;
+      border:1px solid #00ff99;
+      border-radius:12px;
+    }
+
+    .gps-text{
+      color:#00ffcc;
+      font-size:12px;
+    }
+
   </style>
 </head>
 
@@ -246,7 +271,7 @@
 
     <div class="top-bar">
       <h1>Falcon Vision AI</h1>
-      <p id="connection">STATUS: STANDBY</p>
+      <p>STATUS: STANDBY</p>
     </div>
 
     <div class="main">
@@ -294,9 +319,11 @@
           <div class="value">Online</div>
         </div>
 
-        <!-- RADAR -->
+        <button class="toggle-btn" onclick="toggleRadar()">
+          Open / Close Radar
+        </button>
 
-        <div class="radar">
+        <div class="radar" id="radar">
 
           <div class="sweep"></div>
 
@@ -304,19 +331,24 @@
 
         </div>
 
-        <div class="map-card">
-  <h3>Live GPS Map</h3>
+        <button class="toggle-btn" onclick="toggleMap()">
+          Open / Close GPS Map
+        </button>
 
-  <div class="mini-map">
-    <div class="map-grid"></div>
-    <div class="drone-point">▲</div>
-    <div class="map-label">DRONE NODE-01</div>
-  </div>
+        <div class="map-card" id="mapCard">
 
-  <p class="gps-text">
-    LAT: 24.7136 | LON: 46.6753
-  </p>
-</div>
+          <h3>Live GPS Map</h3>
+
+          <iframe
+            class="real-map"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=46.6653%2C24.7036%2C46.6853%2C24.7236&layer=mapnik&marker=24.7136%2C46.6753">
+          </iframe>
+
+          <p class="gps-text">
+            LAT: 24.7136 | LON: 46.6753
+          </p>
+
+        </div>
 
       </div>
 
@@ -335,6 +367,42 @@
     </div>
 
   </div>
+
+  <script>
+
+    function toggleMap(){
+
+      const map=document.getElementById("mapCard");
+
+      if(map.style.display==="none" || map.style.display===""){
+
+        map.style.display="block";
+
+      }else{
+
+        map.style.display="none";
+
+      }
+
+    }
+
+    function toggleRadar(){
+
+      const radar=document.getElementById("radar");
+
+      if(radar.style.display==="none"){
+
+        radar.style.display="block";
+
+      }else{
+
+        radar.style.display="none";
+
+      }
+
+    }
+
+  </script>
 
 </body>
 </html>
