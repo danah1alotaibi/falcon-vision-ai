@@ -416,120 +416,48 @@
   </div>
 
   <script>
-    let battery = 87;
-    let altitude = 12;
-    let nightVision = false;
-
-    function beep(freq = 700, duration = 120) {
-      const audio = new AudioContext();
-      const oscillator = audio.createOscillator();
-      const gain = audio.createGain();
-
-      oscillator.connect(gain);
-      gain.connect(audio.destination);
-
-      oscillator.frequency.value = freq;
-      oscillator.start();
-
-      gain.gain.setValueAtTime(0.08, audio.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + duration / 1000);
-
-      oscillator.stop(audio.currentTime + duration / 1000);
-    }
-
-    function addLog(text) {
-      const log = document.getElementById("missionLog");
-      const time = new Date().toLocaleTimeString();
-      log.innerHTML += <br><span>[${time}]</span> ${text};
-    }
-
     function toggleMap() {
-      const map = document.getElementById("mapCard");
-      map.style.display = map.style.display === "block" ? "none" : "block";
-      beep(500);
-    }
+    const map = document.getElementById("mapCard");
+    map.style.display = map.style.display === "block" ? "none" : "block";
+  }
 
-    function toggleRadar() {
-      const radar = document.getElementById("radar");
-      radar.style.display = radar.style.display === "block" ? "none" : "block";
-      beep(600);
-    }
+  function toggleRadar() {
+    const radar = document.getElementById("radar");
+    radar.style.display = radar.style.display === "block" ? "none" : "block";
+  }
 
-    function connectDrone() {
-      document.getElementById("status").innerText = "STATUS: DRONE CONNECTED";
-      document.getElementById("altitude").innerText = "18 m";
-      addLog("Drone connection established");
-      beep(800);
-    }
+  function connectDrone() {
+    document.getElementById("status").innerText = "STATUS: DRONE CONNECTED";
+    document.getElementById("altitude").innerText = "18 m";
+  }
 
-    function startCamera() {
-      document.getElementById("status").innerText = "STATUS: CAMERA STREAMING";
-      addLog("Camera stream activated");
-      beep(900);
-    }
+  function startCamera() {
+    document.getElementById("status").innerText = "STATUS: CAMERA STREAMING";
+  }
 
-  
-      function activateAI() {
-  document.getElementById("aiStatus").innerText = "Scanning";
-  document.queryselector(".detection").style.display = "block";
+  function activateAI() {
+    document.getElementById("aiStatus").innerText = "Scanning";
+    document.getElementById("detectionText").innerHTML =
+      "PERSON DETECTED<br>TARGET LOCKED<br>TRACKING ACTIVE";
+    document.getElementById("status").innerText = "STATUS: AI TARGET LOCKED";
+  }
 
-  document.getElementById("detectionText").innerHTML =
-    "PERSON DETECTED<br>TARGET LOCKED<br>TRACKING ACTIVE";
+  function toggleNightVision() {
+    nightVision = !nightVision;
+    document.getElementById("cameraBox").classList.toggle("night");
 
-  document.getElementById("status").innerText = "STATUS: AI TARGET LOCKED";
+    document.getElementById("modeText").innerText = nightVision
+      ? "NIGHT VISION MODE ACTIVE"
+      : "AI VISION / SURVEILLANCE MODE";
+  }
 
-  setTimeout(function() {
-    document.getElementById("aiStatus").innerText = "Online";
-  }, 2000);
-}
-    
-
-    function toggleNightVision() {
-      nightVision = !nightVision;
-
-      document.getElementById("cameraBox").classList.toggle("night");
-      document.getElementById("modeText").innerText =
-        nightVision ? "NIGHT VISION MODE ACTIVE" : "AI VISION / SURVEILLANCE MODE";
-
-      addLog(nightVision ? "Night vision enabled" : "Night vision disabled");
-      beep(650);
-    }
-
-    function emergencyStop() {
-      document.getElementById("status").innerText = "STATUS: EMERGENCY STOP";
-      document.getElementById("altitude").innerText = "0 m";
-      document.getElementById("aiStatus").innerText = "Offline";
-      document.queryselector(".detection").style.display = "none";
-
-      document.getElementById("detectionText").innerHTML =
-        "SYSTEM STOPPED<br>ALL TRACKING DISABLED";
-
-      addLog("Emergency stop activated");
-      beep(300, 400);
-    }
-
-    setInterval(function() {
-      battery--;
-
-      if (battery <= 0) {
-        battery = 87;
-      }
-
-      altitude = Math.floor(Math.random() * 40) + 5;
-
-      const signals = ["Strong", "Medium", "Weak"];
-      const randomSignal = signals[Math.floor(Math.random() * signals.length)];
-
-      document.getElementById("battery").innerText = battery + "%";
-      document.getElementById("altitude").innerText = altitude + " m";
-      document.getElementById("signal").innerText = randomSignal;
-
-      if (battery < 20) {
-        document.getElementById("battery").style.color = "#ff3355";
-      } else {
-        document.getElementById("battery").style.color = "#00ff99";
-      }
-    }, 2500);
+  function emergencyStop() {
+    document.getElementById("status").innerText = "STATUS: EMERGENCY STOP";
+    document.getElementById("altitude").innerText = "0 m";
+    document.getElementById("aiStatus").innerText = "Offline";
+    document.getElementById("detectionText").innerHTML =
+      "SYSTEM STOPPED<br>ALL TRACKING DISABLED";
+  }
   </script>
 
 </body>
