@@ -468,30 +468,21 @@
       beep(900);
     }
 
-    function activateAI() {
-      document.getElementById("aiStatus").innerText = "Scanning";
-      document.getElementById("aiAlert").style.display = "block";
+  
+      function activateAI() {
+  document.getElementById("aiStatus").innerText = "Scanning";
+  document.getElementById("aiAlert").style.display = "block";
 
-      const targets = [
-        "HUMAN DETECTED",
-        "VEHICLE DETECTED",
-        "MOVEMENT DETECTED",
-        "UNKNOWN TARGET",
-        "DRONE SIGNAL FOUND"
-      ];
+  document.getElementById("detectionText").innerHTML =
+    "PERSON DETECTED<br>TARGET LOCKED<br>TRACKING ACTIVE";
 
-      const randomTarget = targets[Math.floor(Math.random() * targets.length)];
+  document.getElementById("status").innerText = "STATUS: AI TARGET LOCKED";
 
-      document.getElementById("detectionText").innerHTML =
-        randomTarget + "<br>TARGET LOCKED<br>TRACKING ACTIVE";
-
-      addLog(randomTarget + " - tracking active");
-      beep(1200, 180);
-
-      setTimeout(function() {
-        document.getElementById("aiStatus").innerText = "Online";
-      }, 2000);
-    }
+  setTimeout(function() {
+    document.getElementById("aiStatus").innerText = "Online";
+  }, 2000);
+}
+    
 
     function toggleNightVision() {
       nightVision = !nightVision;
