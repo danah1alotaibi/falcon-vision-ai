@@ -6,9 +6,7 @@
   <title>Falcon Vision AI</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -21,9 +19,7 @@
       font-family: Arial, sans-serif;
     }
 
-    .dashboard {
-      padding: 24px;
-    }
+    .dashboard { padding: 24px; }
 
     .top-bar {
       display: flex;
@@ -33,29 +29,17 @@
       border: 1px solid rgba(0,234,255,0.35);
       border-radius: 18px;
       background: rgba(11,18,36,0.85);
-      box-shadow: 0 0 25px rgba(0,234,255,0.12);
     }
 
-    .brand h1 {
-      margin: 0;
-      color: #00eaff;
-      letter-spacing: 1px;
-    }
-
-    .brand p {
-      margin: 6px 0 0;
-      color: #8fa7c9;
-      font-size: 13px;
-    }
+    .brand h1 { margin: 0; color: #00eaff; }
+    .brand p { margin: 6px 0 0; color: #8fa7c9; font-size: 13px; }
 
     .status-pill {
       padding: 10px 18px;
       border-radius: 30px;
-      background: rgba(0,255,153,0.12);
       border: 1px solid #00ff99;
       color: #00ff99;
       font-weight: bold;
-      font-size: 13px;
     }
 
     .layout {
@@ -70,7 +54,6 @@
       border: 1px solid rgba(0,234,255,0.25);
       border-radius: 20px;
       padding: 18px;
-      box-shadow: 0 0 25px rgba(0,234,255,0.08);
     }
 
     .panel-title {
@@ -87,14 +70,16 @@
       position: relative;
       border: 1px solid rgba(0,234,255,0.45);
       background: #07111f;
-      box-shadow: inset 0 0 40px rgba(0,234,255,0.08);
     }
 
     .camera-box iframe {
       width: 100%;
       height: 100%;
       border: none;
-      filter: contrast(1.05) saturate(1.05);
+    }
+
+    .night iframe {
+      filter: hue-rotate(80deg) saturate(1.8) brightness(0.8);
     }
 
     .hud-top {
@@ -105,7 +90,6 @@
       display: flex;
       justify-content: space-between;
       z-index: 5;
-      pointer-events: none;
     }
 
     .rec {
@@ -119,9 +103,7 @@
       font-size: 13px;
     }
 
-    @keyframes blink {
-      50% { opacity: 0.35; }
-    }
+    @keyframes blink { 50% { opacity: 0.35; } }
 
     .scan-line {
       position: absolute;
@@ -152,10 +134,7 @@
     }
 
     @keyframes pulse {
-      50% {
-        transform: scale(1.08);
-        opacity: 0.75;
-      }
+      50% { transform: scale(1.08); opacity: 0.75; }
     }
 
     .coords {
@@ -178,7 +157,6 @@
       border-radius: 12px;
       background: rgba(255,51,85,0.18);
       border: 1px solid #ff3355;
-      color: #fff;
       box-shadow: 0 0 22px rgba(255,51,85,0.55);
       font-size: 13px;
       font-weight: bold;
@@ -223,7 +201,7 @@
     .controls {
       margin-top: 18px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 12px;
     }
 
@@ -235,12 +213,6 @@
       color: #050816;
       font-weight: bold;
       cursor: pointer;
-      transition: 0.25s;
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(0,234,255,0.45);
     }
 
     .danger {
@@ -264,7 +236,6 @@
       position: relative;
       overflow: hidden;
       background: rgba(0,255,100,0.05);
-      box-shadow: 0 0 25px rgba(0,255,100,0.3);
     }
 
     .radar::before,
@@ -277,15 +248,8 @@
       border: 1px solid rgba(0,255,100,0.22);
     }
 
-    .radar::before {
-      width: 70%;
-      height: 70%;
-    }
-
-    .radar::after {
-      width: 42%;
-      height: 42%;
-    }
+    .radar::before { width: 70%; height: 70%; }
+    .radar::after { width: 42%; height: 42%; }
 
     .sweep {
       position: absolute;
@@ -296,7 +260,6 @@
       left: 50%;
       transform-origin: left center;
       animation: rotate 2s linear infinite;
-      box-shadow: 0 0 20px #00ff99;
     }
 
     @keyframes rotate {
@@ -333,22 +296,12 @@
       line-height: 24px;
     }
 
-    .mission-log span {
-      color: #00ffcc;
-    }
+    .mission-log span { color: #00ffcc; }
 
     @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-
-      .controls {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .camera-box {
-        height: 420px;
-      }
+      .layout { grid-template-columns: 1fr; }
+      .controls { grid-template-columns: 1fr 1fr; }
+      .camera-box { height: 420px; }
     }
   </style>
 </head>
@@ -371,15 +324,14 @@
       <section class="panel">
         <h2 class="panel-title">LIVE DRONE CAMERA FEED</h2>
 
-        <div class="camera-box">
+        <div class="camera-box" id="cameraBox">
           <div class="hud-top">
             <div class="rec">● REC</div>
-            <div class="mode">AI VISION / SURVEILLANCE MODE</div>
+            <div class="mode" id="modeText">AI VISION / SURVEILLANCE MODE</div>
           </div>
 
           <div class="scan-line"></div>
           <div class="target-box"></div>
-
           <div class="ai-alert" id="aiAlert">TARGET LOCKED</div>
 
           <div class="coords">
@@ -399,10 +351,11 @@
           <button onclick="connectDrone()">Connect</button>
           <button onclick="startCamera()">Camera</button>
           <button onclick="activateAI()">AI Scan</button>
+          <button onclick="toggleNightVision()">Night Vision</button>
           <button class="danger" onclick="emergencyStop()">Emergency</button>
         </div>
 
-        <div class="mission-log">
+        <div class="mission-log" id="missionLog">
           <strong>Mission Log</strong><br>
           <span>[00:01]</span> System initialized<br>
           <span>[00:03]</span> Camera feed loaded<br>
@@ -424,7 +377,7 @@
 
         <div class="stat-card">
           <h3>Signal Strength</h3>
-          <div class="value">Strong</div>
+          <div class="value" id="signal">Strong</div>
         </div>
 
         <div class="stat-card">
@@ -463,23 +416,56 @@
   </div>
 
   <script>
+    let battery = 87;
+    let altitude = 12;
+    let nightVision = false;
+
+    function beep(freq = 700, duration = 120) {
+      const audio = new AudioContext();
+      const oscillator = audio.createOscillator();
+      const gain = audio.createGain();
+
+      oscillator.connect(gain);
+      gain.connect(audio.destination);
+
+      oscillator.frequency.value = freq;
+      oscillator.start();
+
+      gain.gain.setValueAtTime(0.08, audio.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + duration / 1000);
+
+      oscillator.stop(audio.currentTime + duration / 1000);
+    }
+
+    function addLog(text) {
+      const log = document.getElementById("missionLog");
+      const time = new Date().toLocaleTimeString();
+      log.innerHTML += <br><span>[${time}]</span> ${text};
+    }
+
     function toggleMap() {
       const map = document.getElementById("mapCard");
       map.style.display = map.style.display === "block" ? "none" : "block";
+      beep(500);
     }
 
     function toggleRadar() {
       const radar = document.getElementById("radar");
       radar.style.display = radar.style.display === "block" ? "none" : "block";
+      beep(600);
     }
 
     function connectDrone() {
       document.getElementById("status").innerText = "STATUS: DRONE CONNECTED";
       document.getElementById("altitude").innerText = "18 m";
+      addLog("Drone connection established");
+      beep(800);
     }
 
     function startCamera() {
       document.getElementById("status").innerText = "STATUS: CAMERA STREAMING";
+      addLog("Camera stream activated");
+      beep(900);
     }
 
     function activateAI() {
@@ -499,9 +485,23 @@
       document.getElementById("detectionText").innerHTML =
         randomTarget + "<br>TARGET LOCKED<br>TRACKING ACTIVE";
 
+      addLog(randomTarget + " - tracking active");
+      beep(1200, 180);
+
       setTimeout(function() {
         document.getElementById("aiStatus").innerText = "Online";
       }, 2000);
+    }
+
+    function toggleNightVision() {
+      nightVision = !nightVision;
+
+      document.getElementById("cameraBox").classList.toggle("night");
+      document.getElementById("modeText").innerText =
+        nightVision ? "NIGHT VISION MODE ACTIVE" : "AI VISION / SURVEILLANCE MODE";
+
+      addLog(nightVision ? "Night vision enabled" : "Night vision disabled");
+      beep(650);
     }
 
     function emergencyStop() {
@@ -512,7 +512,33 @@
 
       document.getElementById("detectionText").innerHTML =
         "SYSTEM STOPPED<br>ALL TRACKING DISABLED";
+
+      addLog("Emergency stop activated");
+      beep(300, 400);
     }
+
+    setInterval(function() {
+      battery--;
+
+      if (battery <= 0) {
+        battery = 87;
+      }
+
+      altitude = Math.floor(Math.random() * 40) + 5;
+
+      const signals = ["Strong", "Medium", "Weak"];
+      const randomSignal = signals[Math.floor(Math.random() * signals.length)];
+
+      document.getElementById("battery").innerText = battery + "%";
+      document.getElementById("altitude").innerText = altitude + " m";
+      document.getElementById("signal").innerText = randomSignal;
+
+      if (battery < 20) {
+        document.getElementById("battery").style.color = "#ff3355";
+      } else {
+        document.getElementById("battery").style.color = "#00ff99";
+      }
+    }, 2500);
   </script>
 
 </body>
