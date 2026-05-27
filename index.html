@@ -6,7 +6,6 @@
   <title>Falcon Vision AI</title>
 
   <style>
-
     body{
       margin:0;
       background:#050816;
@@ -61,9 +60,7 @@
     }
 
     @keyframes blink{
-      50%{
-        opacity:0.3;
-      }
+      50%{ opacity:0.3; }
     }
 
     .scan-line{
@@ -78,13 +75,8 @@
     }
 
     @keyframes scan{
-      0%{
-        top:0;
-      }
-
-      100%{
-        top:100%;
-      }
+      0%{ top:0; }
+      100%{ top:100%; }
     }
 
     .target-box{
@@ -96,6 +88,14 @@
       left:45%;
       z-index:5;
       box-shadow:0 0 20px red;
+      animation:targetPulse 1.5s infinite;
+    }
+
+    @keyframes targetPulse{
+      50%{
+        transform:scale(1.1);
+        opacity:0.7;
+      }
     }
 
     .coords{
@@ -105,6 +105,21 @@
       color:#00ffcc;
       z-index:5;
       font-size:14px;
+    }
+
+    .ai-alert{
+      position:absolute;
+      top:20px;
+      right:20px;
+      z-index:6;
+      background:rgba(255,0,0,0.25);
+      border:1px solid red;
+      color:white;
+      padding:12px 18px;
+      border-radius:12px;
+      font-size:14px;
+      display:none;
+      box-shadow:0 0 20px red;
     }
 
     .side-panel{
@@ -129,6 +144,22 @@
     .value{
       font-size:28px;
       color:#00ff99;
+    }
+
+    .detection{
+      background:#150b0b;
+      border:1px solid red;
+      box-shadow:0 0 20px rgba(255,0,0,0.25);
+    }
+
+    .detection h3{
+      color:#ff3355;
+    }
+
+    .detect-text{
+      color:#ffcc00;
+      font-size:16px;
+      line-height:26px;
     }
 
     .controls{
@@ -166,9 +197,8 @@
       box-shadow:0 0 20px #00ff99;
     }
 
-    /* RADAR */
-
     .radar{
+      display:none;
       margin-top:10px;
       width:260px;
       height:260px;
@@ -214,13 +244,8 @@
     }
 
     @keyframes rotate{
-      from{
-        transform:rotate(0deg);
-      }
-
-      to{
-        transform:rotate(360deg);
-      }
+      from{ transform:rotate(0deg); }
+      to{ transform:rotate(360deg); }
     }
 
     .dot{
@@ -233,8 +258,6 @@
       left:60%;
       box-shadow:0 0 15px red;
     }
-
-    /* MAP */
 
     .map-card{
       display:none;
@@ -261,7 +284,6 @@
       color:#00ffcc;
       font-size:12px;
     }
-
   </style>
 </head>
 
@@ -271,7 +293,7 @@
 
     <div class="top-bar">
       <h1>Falcon Vision AI</h1>
-      <p>STATUS: STANDBY</p>
+      <p id="status">STATUS: STANDBY</p>
     </div>
 
     <div class="main">
@@ -279,10 +301,12 @@
       <div class="camera-box">
 
         <div class="rec">● REC</div>
-
         <div class="scan-line"></div>
-
         <div class="target-box"></div>
+
+        <div class="ai-alert" id="aiAlert">
+          TARGET LOCKED
+        </div>
 
         <div class="coords">
           LAT: 24.7136<br>
@@ -301,12 +325,12 @@
 
         <div class="card">
           <h3>Battery</h3>
-          <div class="value">87%</div>
+          <div class="value" id="battery">87%</div>
         </div>
 
         <div class="card">
           <h3>Altitude</h3>
-          <div class="value">12 m</div>
+          <div class="value" id="altitude">12 m</div>
         </div>
 
         <div class="card">
@@ -316,7 +340,15 @@
 
         <div class="card">
           <h3>AI Vision</h3>
-          <div class="value">Online</div>
+          <div class="value" id="aiStatus">Online</div>
+        </div>
+
+        <div class="card detection">
+          <h3>AI Detection</h3>
+          <div class="detect-text" id="detectionText">
+            SYSTEM READY<br>
+            WAITING FOR TARGET...
+          </div>
         </div>
 
         <button class="toggle-btn" onclick="toggleRadar()">
@@ -324,11 +356,8 @@
         </button>
 
         <div class="radar" id="radar">
-
           <div class="sweep"></div>
-
           <div class="dot"></div>
-
         </div>
 
         <button class="toggle-btn" onclick="toggleMap()">
@@ -355,53 +384,65 @@
     </div>
 
     <div class="controls">
-
-      <button>Connect Drone</button>
-
-      <button>Start Camera</button>
-
-      <button>Activate AI Vision</button>
-
-      <button class="danger">Emergency Stop</button>
-
+      <button onclick="connectDrone()">Connect Drone</button>
+      <button onclick="startCamera()">Start Camera</button>
+      <button onclick="activateAI()">Activate AI Vision</button>
+      <button class="danger" onclick="emergencyStop()">Emergency Stop</button>
     </div>
 
   </div>
 
   <script>
-
     function toggleMap(){
-
       const map=document.getElementById("mapCard");
 
       if(map.style.display==="none" || map.style.display===""){
-
         map.style.display="block";
-
       }else{
-
         map.style.display="none";
-
       }
-
     }
 
     function toggleRadar(){
-
       const radar=document.getElementById("radar");
 
-      if(radar.style.display==="none"){
-
+      if(radar.style.display==="none" || radar.style.display===""){
         radar.style.display="block";
-
       }else{
-
         radar.style.display="none";
-
       }
-
     }
 
+    function connectDrone(){
+      document.getElementById("status").innerText = "STATUS: DRONE CONNECTED";
+      document.getElementById("altitude").innerText = "18 m";
+    }
+
+    function startCamera(){
+      document.getElementById("status").innerText = "STATUS: CAMERA STREAMING";
+    }
+
+    function activateAI(){
+      document.getElementById("aiStatus").innerText = "Scanning";
+      document.getElementById("aiAlert").style.display = "block";
+
+      document.getElementById("detectionText").innerHTML =
+        "PERSON DETECTED<br>TARGET LOCKED<br>TRACKING ACTIVE";
+
+      setTimeout(function(){
+        document.getElementById("aiStatus").innerText = "Online";
+      }, 2000);
+    }
+
+    function emergencyStop(){
+      document.getElementById("status").innerText = "STATUS: EMERGENCY STOP";
+      document.getElementById("altitude").innerText = "0 m";
+      document.getElementById("aiStatus").innerText = "Offline";
+      document.getElementById("aiAlert").style.display = "none";
+
+      document.getElementById("detectionText").innerHTML =
+        "SYSTEM STOPPED<br>ALL TRACKING DISABLED";
+    }
   </script>
 
 </body>
