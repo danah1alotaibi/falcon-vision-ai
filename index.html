@@ -426,8 +426,19 @@
       document.getElementById("aiStatus").innerText = "Scanning";
       document.getElementById("aiAlert").style.display = "block";
 
-      document.getElementById("detectionText").innerHTML =
-        "PERSON DETECTED<br>TARGET LOCKED<br>TRACKING ACTIVE";
+     const targets = [
+  "HUMAN DETECTED",
+  "VEHICLE DETECTED",
+  "MOVEMENT DETECTED",
+  "UNKNOWN TARGET",
+  "DRONE SIGNAL FOUND"
+];
+
+const randomTarget =
+targets[Math.floor(Math.random() * targets.length)];
+
+document.getElementById("detectionText").innerHTML =
+randomTarget + "<br>TARGET LOCKED<br>TRACKING ACTIVE";
 
       setTimeout(function(){
         document.getElementById("aiStatus").innerText = "Online";
