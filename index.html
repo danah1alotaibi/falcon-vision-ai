@@ -471,7 +471,7 @@
   
       function activateAI() {
   document.getElementById("aiStatus").innerText = "Scanning";
-  document.getElementById("aiAlert").style.display = "block";
+  document.getElementById(".detection").style.display = "block";
 
   document.getElementById("detectionText").innerHTML =
     "PERSON DETECTED<br>TARGET LOCKED<br>TRACKING ACTIVE";
@@ -499,7 +499,7 @@
       document.getElementById("status").innerText = "STATUS: EMERGENCY STOP";
       document.getElementById("altitude").innerText = "0 m";
       document.getElementById("aiStatus").innerText = "Offline";
-      document.getElementById("aiAlert").style.display = "none";
+      document.getElementById(".detection").style.display = "none";
 
       document.getElementById("detectionText").innerHTML =
         "SYSTEM STOPPED<br>ALL TRACKING DISABLED";
